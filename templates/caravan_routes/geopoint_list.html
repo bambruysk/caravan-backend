@@ -1,0 +1,23 @@
+{% extends "caravan_routes/base.html" %}
+
+
+{% load bootstrap3 %}
+
+{% block body %}
+
+
+    <h2> GeoPoints </h2>
+
+    <form method="post"> {% csrf_token %}
+        {{ form.as_table }}
+        <input type="submit" value="Save">
+    </form>
+
+    <ul>
+        {% for geopoint in object_list %}
+            <li>{{ geopoint.name }}  {{ geopoint.lattitude }} - {{ geopoint.longitude }} </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_geopoint' %}" class="top-menu"><span class="glyphicon glyphicon-plus"> </span> </a>
+
+{% endblock body %}
