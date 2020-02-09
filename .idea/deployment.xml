@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="yandex_linux" uploadOnCheckin="c5ba337a-9173-4655-87a9-7676baa0eb0c">
+  <component name="PublishConfigData" serverName="yandex_linux" uploadOnCheckin="c5ba337a-9173-4655-87a9-7676baa0eb0c">
     <serverData>
       <paths name="yandex_linux">
         <serverdata>
@@ -11,6 +11,5 @@
       </paths>
     </serverData>
     <option name="myUploadOnCheckinName" value="yandex_linux" />
-    <option name="myAutoUpload" value="ALWAYS" />
   </component>
 </project>
