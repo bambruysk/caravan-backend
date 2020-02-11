@@ -53,3 +53,9 @@ class Caravan(models.Model):
 class RouteCollection(models.Model):
     version = models.BigIntegerField()
     routes = models.ManyToManyField(Route)
+
+
+class Team(models.Model):
+    name = models.CharField(max_length=60)
+    routes = models.ManyToManyField(Route)
+

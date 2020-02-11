@@ -19,10 +19,12 @@ class GeoPointTable(Table):
     class Meta:
         model = GeoPoint
 
+
 class GeoPointTableView(SingleTableView):
     table_class = GeoPointTable
     queryset = GeoPoint.objects.all()
     template_name = "caravan_routes/geopoint_table.html"
+
 
 class GeoPointsCreateView(CreateView):
     model = GeoPoint
@@ -39,7 +41,6 @@ class GeoPointsModelForm(ModelForm):
                   'longitude']
 
 
-
 def check_version(req  ):
     version = req.GET.get("version",0)
     #
@@ -49,9 +50,9 @@ def check_version(req  ):
     else:
         return HttpResponse("OK")
 
+
 def update (req):
     routes = Route.objects.all()
     return JsonResponse(routes)
 
 
-def

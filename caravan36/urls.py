@@ -16,6 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from caravan_routes import views
+from django.conf.urls import url, include
+from django.contrib.auth.models import User
+from rest_framework import routers, serializers, viewsets
+
 
 from caravan_routes.views import GeoPointsView, GeoPointsCreateView
 
@@ -24,5 +28,9 @@ urlpatterns = [
     path('geopoints/', GeoPointsView.as_view()),
     path('geopoints/create', GeoPointsCreateView.as_view(), name='add_geopoint'),
     path('update/', views.update, name='update_db_json'),
+    url(r'^api-auth/', include('rest_framework.urls'))
 
 ]
+
+
+

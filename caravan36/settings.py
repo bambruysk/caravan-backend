@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'caravan_routes',
     'bootstrap3',
     'django_tables2',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
