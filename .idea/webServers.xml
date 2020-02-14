@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="c5ba337a-9173-4655-87a9-7676baa0eb0c" name="yandex_linux" url="http://84.201.145.244">
-        <fileTransfer host="84.201.145.244" port="22" rootFolder="/home/bambr/caravan" accessType="SFTP" authAgent="true">
+        <fileTransfer host="84.201.145.244" port="22" privateKey="C:\Users\Александр\Documents\yandex_cloud_caravan.ppk" rootFolder="/home/bambr/caravan" accessType="SFTP" keyPair="true">
           <advancedOptions>
             <advancedOptions controlEncoding="utf-8" dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

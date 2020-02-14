@@ -21,14 +21,19 @@ from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 
 
-from caravan_routes.views import GeoPointsView, GeoPointsCreateView
+from caravan_routes.views import GeoPointsView, GeoPointsCreateView, ListGeopointsView, RoutePointsListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('geopoints/', GeoPointsView.as_view()),
     path('geopoints/create', GeoPointsCreateView.as_view(), name='add_geopoint'),
     path('update/', views.update, name='update_db_json'),
-    url(r'^api-auth/', include('rest_framework.urls'))
+    url(r'api-auth/', include('rest_framework.urls')),
+    path ('auth/',views.ExampleView.as_view(),name="auth"),
+    path('auth-token/', views.CustomAuthToken.as_view(), name="auth-token"),
+    path('change_passwd/',views.ChangePasswordView.as_view(), name="change_passwd"),
+    path('api/geopoints/',ListGeopointsView.as_view()),
+    path('api/routepoints/', RoutePointsListView.as_view()),
 
 ]
 
