@@ -22,12 +22,20 @@ class GetAllRoutesSerializer(serializers.ModelSerializer):
 class GeoPointSerializer(serializers.ModelSerializer):
     class Meta:
         model = GeoPoint
-        fields = ['name','lattitude',"longitude"]
+        fields = ['id', 'name', 'lattitude', "longitude"]
 
 
 class RoutePointSerializer(serializers.ModelSerializer):
-    geopoints = GeoPointSerializer()
+    geopoints = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
     class Meta:
         model = RoutePoint
-        fields = ['name', 'description', 'geopoints']
+        fields = ['id', 'description', 'name', 'geopoints']
+
+
+class RouteSerializer(serializers.ModelSerializer):
+    points = RoutePointSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Route
+        fields = ['id', 'description', 'name', 'points', 'last_update']

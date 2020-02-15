@@ -21,7 +21,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
 
-from .serializers import ChangePasswordSerializer, GeoPointSerializer
+from .serializers import ChangePasswordSerializer, GeoPointSerializer, RoutePointSerializer, RouteSerializer
 
 
 # Create your views here.
@@ -165,11 +165,16 @@ class ListGeopointsView(ListAPIView):
 
 
 class RoutePointsListView(ListAPIView):
-    serializer_class = GeoPointSerializer
+    serializer_class = RoutePointSerializer
     model = RoutePoint
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = RoutePoint.objects.all()
 
 
-
+class RouteListView(ListAPIView):
+    serializer_class = RouteSerializer
+    model = Route
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Route.objects.all()

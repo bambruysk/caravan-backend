@@ -20,8 +20,8 @@ from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 
-
-from caravan_routes.views import GeoPointsView, GeoPointsCreateView, ListGeopointsView, RoutePointsListView
+from caravan_routes.views import GeoPointsView, GeoPointsCreateView, ListGeopointsView, RoutePointsListView, \
+    RouteListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,6 +34,7 @@ urlpatterns = [
     path('change_passwd/',views.ChangePasswordView.as_view(), name="change_passwd"),
     path('api/geopoints/',ListGeopointsView.as_view()),
     path('api/routepoints/', RoutePointsListView.as_view()),
+    path('api/routes/', RouteListView.as_view()),
 
 ]
 
