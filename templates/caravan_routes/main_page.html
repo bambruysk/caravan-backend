@@ -11,6 +11,67 @@
     <a href="https://docs.google.com/document/d/1kz_9meSmUD4pllpqRlOkUc_a2A4w92llPNG1aZ_Pffk/edit?usp=sharing"> Протокол
         API (Google Docs)</a>
     <br>
+    <p>
+        Для досутпа к API используется REST протокол
+    </p>
+    <table border=1>
+        <tr>
+            <th>URL Style</th>
+            <th>HTTP Method</th>
+            <th>Action</th>
+            <th>URL Name</th>
+        </tr>
+        <tr>
+            <td rowspan=2>{prefix}/</td>
+            <td>GET</td>
+            <td>list</td>
+            <td rowspan=2>{basename}-list</td>
+        </tr>
+        </tr>
+        <tr>
+            <td>POST</td>
+            <td>create</td>
+        </tr>
+        <tr>
+            <td>{prefix}/{url_path}/</td>
+            <td>GET, or as specified by `methods` argument</td>
+            <td>`@action(detail=False)` decorated method</td>
+            <td>{basename}-{url_name}</td>
+        </tr>
+        <tr>
+            <td rowspan=4>{prefix}/{lookup}/</td>
+            <td>GET</td>
+            <td>retrieve</td>
+            <td rowspan=4>{basename}-detail</td>
+        </tr>
+        </tr>
+        <tr>
+            <td>PUT</td>
+            <td>update</td>
+        </tr>
+        <tr>
+            <td>PATCH</td>
+            <td>partial_update</td>
+        </tr>
+        <tr>
+            <td>DELETE</td>
+            <td>destroy</td>
+        </tr>
+        <tr>
+            <td>{prefix}/{lookup}/{url_path}/</td>
+            <td>GET, or as specified by `methods` argument</td>
+            <td>`@action(detail=True)` decorated method</td>
+            <td>{basename}-{url_name}</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <p>Список доступных сссылок</p>
+    <ul>
+        {% for url in router_urls %}
+            <li>{{ url }}  </li>
+        {% endfor %}
+    </ul>
 
 
 
