@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Route, GeoPoint, RoutePoint
+from .models import Route, GeoPoint, RoutePoint, GeoMap
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -25,12 +25,20 @@ class GeoPointSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'lattitude', "longitude"]
 
 
+class GeoPointCoordOnlySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GeoPoint
+        fields = ['lattitude', "longitude"]
+
+
 class RoutePointSerializer(serializers.ModelSerializer):
-    geopoints = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    position = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+
+    # position = GeoPointSerializer(many=False, read_only=True)
 
     class Meta:
         model = RoutePoint
-        fields = ['id', 'description', 'name', 'geopoints']
+        fields = ['id', 'description', 'name', 'position']
 
 
 class RouteSerializer(serializers.ModelSerializer):
@@ -39,3 +47,15 @@ class RouteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Route
         fields = ['id', 'description', 'name', 'points', 'last_update']
+
+
+class GeoMapSerializer(serializers.HyperlinkedModelSerializer):
+    north_west = GeoPointCoordOnlySerializer(many=False, read_only=True)
+    north_east = GeoPointCoordOnlySerializer(many=False, read_only=True)
+    south_west = GeoPointCoordOnlySerializer(many=False, read_only=True)
+    south_east = GeoPointCoordOnlySerializer(many=False, read_only=True)
+
+    class Meta:
+        model = GeoMap
+        fields = ['id', 'name', 'description', 'url', 'picture',
+                  'north_west', 'north_east', 'south_west', 'south_east']

@@ -15,6 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+from django.views.generic import TemplateView
+
+from caravan36 import settings
 from caravan_routes import views
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
@@ -22,21 +26,20 @@ from rest_framework import routers, serializers, viewsets
 
 from caravan_routes.views import GeoPointsView, GeoPointsCreateView, ListGeopointsView, RoutePointsListView, \
     RouteListView
-
+from caravan_routes.routers import router
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('geopoints/', GeoPointsView.as_view()),
-    path('geopoints/create', GeoPointsCreateView.as_view(), name='add_geopoint'),
+                  path('api/geopoints/create', GeoPointsCreateView.as_view(), name='add_geopoint'),
     path('update/', views.update, name='update_db_json'),
     url(r'api-auth/', include('rest_framework.urls')),
     path ('auth/',views.ExampleView.as_view(),name="auth"),
     path('auth-token/', views.CustomAuthToken.as_view(), name="auth-token"),
     path('change_passwd/',views.ChangePasswordView.as_view(), name="change_passwd"),
-    path('api/geopoints/',ListGeopointsView.as_view()),
-    path('api/routepoints/', RoutePointsListView.as_view()),
-    path('api/routes/', RouteListView.as_view()),
+                  # path('api/geopoints/',ListGeopointsView.as_view()),
+                  # path('api/routepoints/', RoutePointsListView.as_view()),
+                  # path('api/routes/', RouteListView.as_view()),
+                  url(r'^api/', include((router.urls))),
+                  path('', TemplateView.as_view(template_name="caravan_routes/main_page.html")),
 
-]
-
-
-
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

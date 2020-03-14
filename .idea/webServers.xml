@@ -10,6 +10,14 @@
           <option name="port" value="22" />
         </fileTransfer>
       </webServer>
+      <webServer id="622749ce-3828-4a00-8582-bb40212bf743" name="digital_ocean_droplet" url="http://159.65.162.137">
+        <fileTransfer host="159.65.162.137" port="22" privateKey="C:\Users\Александр\Documents\digital_ocean.ppk" rootFolder="/home/bambr/caravan" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions controlEncoding="utf-8" dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

@@ -44,6 +44,7 @@ class GeoPointTableView(SingleTableView):
     template_name = "caravan_routes/geopoint_table.html"
 
 
+
 class GeoPointsCreateView(CreateView):
     model = GeoPoint
     fields = ['name',
@@ -105,7 +106,6 @@ class CustomAuthToken(ObtainAuthToken):
 
 
 class CreateNewUser(CreateAPIView):
-
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,
                                            context={'request': request})
@@ -162,6 +162,14 @@ class ListGeopointsView(ListAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = GeoPoint.objects.all()
+
+
+class GeoPointsCreateView(CreateAPIView):
+    serializer_class = GeoPointSerializer
+    model = GeoPoint
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
 
 
 class RoutePointsListView(ListAPIView):
