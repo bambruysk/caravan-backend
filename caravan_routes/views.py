@@ -10,8 +10,6 @@ from rest_framework.response import Response
 
 from caravan_routes.models import GeoPoint, Route, RoutePoint
 from django.forms import ModelForm
-from django_tables2.tables import Table
-from django_tables2.views import SingleTableView
 from django.http import HttpRequest, HttpResponse, JsonResponse
 
 # REST
@@ -32,16 +30,6 @@ class GeoPointsView(ListView):
     authentication_classes = [TokenAuthentication]
     permission_classes = (IsAuthenticated,)
 
-
-class GeoPointTable(Table):
-    class Meta:
-        model = GeoPoint
-
-
-class GeoPointTableView(SingleTableView):
-    table_class = GeoPointTable
-    queryset = GeoPoint.objects.all()
-    template_name = "caravan_routes/geopoint_table.html"
 
 
 
