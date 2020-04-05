@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -41,3 +42,15 @@ class GeoMapViewSet(viewsets.ModelViewSet):
     serializer_class = GeoMapSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+
+
+class CurrentStatViewSet(viewsets.GenericViewSet):
+    serializer_class = GeoMapSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def partial_update(self, request, pk=None):
+        user: User = request.user
+        caravan = user.caravan
+
+        caravan.state =

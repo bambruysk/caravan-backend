@@ -37,6 +37,7 @@ urlpatterns = \
         url(r'api-auth/', include('rest_framework.urls')),
         path('auth/', views.ExampleView.as_view(), name="auth"),
         path('auth-token/', views.CustomAuthToken.as_view(), name="auth-token"),
+        path('api/auth-token/', views.CustomAuthToken.as_view(), name="auth-token"),
         path('change_passwd/', views.ChangePasswordView.as_view(), name="change_passwd"),
         url(r'^api/', include((router.urls))),
         path('', TemplateView.as_view(template_name="caravan_routes/main_page.html",

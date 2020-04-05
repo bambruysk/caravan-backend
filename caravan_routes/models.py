@@ -56,6 +56,8 @@ class Route(models.Model):
     description = models.TextField(max_length=20000)
     points = models.ManyToManyField(RoutePoint, related_name='points')
     last_update = models.DateTimeField(default=timezone.now)
+    level = models.IntegerField(default=0)
+    instruction = models.TextField(max_length=20000, default="")
 
     def __str__(self):
         return self.name
@@ -73,6 +75,10 @@ class Caravan(models.Model):
 
     def __str__(self):
         return self.name
+
+    def update(self, data: CaravanState):
+
+
 
 
 @receiver(post_save, sender=User)
@@ -145,6 +151,7 @@ def set_default_to_mape(sender, instance=None, created=False, **kwargs):
             instance.south_west = GeoPoint.objects.get_or_create(name="south_west")
             instance.north_west = GeoPoint.objects.get_or_create(name="north_west")
             instance.north_east = GeoPoint.objects.get_or_create(name="north_east")
+
 
 #
 # for username in Caravan.objects.all():

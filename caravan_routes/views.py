@@ -19,7 +19,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
 
-from .serializers import ChangePasswordSerializer, GeoPointSerializer, RoutePointSerializer, RouteSerializer
+from .serializers import ChangePasswordSerializer, GeoPointSerializer, RoutePointSerializer, RouteSerializer, \
+    CurrentStateSerializer
 
 
 # Create your views here.
@@ -174,3 +175,16 @@ class RouteListView(ListAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Route.objects.all()
+
+
+class CurrentStateView(UpdateAPIView):
+    serializer_class = CurrentStateSerializer
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    # def update(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer(data=request.data)
+    #     if serializer.is_valid():
+
+    # TODO: Реализовать обновление состояние караванов
