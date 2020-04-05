@@ -47,6 +47,14 @@ class RoutePoint(models.Model):
                                  related_name='position')  # need be fixed on_delete
     description = models.TextField(max_length=20000)
 
+    POINT_CHOSES = [
+        ("NECESSARY", "Обязательная"),
+        ("OPTIONAL", "Необязательная"),
+        ("HIDDEN", "Скрытая"),
+    ]
+    point_type = models.CharField(max_length=10, choices=POINT_CHOSES, default="NECESSARY")
+
+
     def __str__(self):
         return self.name
 
@@ -58,6 +66,11 @@ class Route(models.Model):
     last_update = models.DateTimeField(default=timezone.now)
     level = models.IntegerField(default=0)
     instruction = models.TextField(max_length=20000, default="")
+
+    # Route options
+    map_visible = models.BooleanField(default=True)
+    route_visible = models.BooleanField(default=True)  # отображать
+    ordered = models.BooleanField(default=True)  # прохождение по порядку
 
     def __str__(self):
         return self.name
@@ -76,7 +89,7 @@ class Caravan(models.Model):
     def __str__(self):
         return self.name
 
-    def update(self, data: CaravanState):
+    # def update(self, data: CaravanState):
 
 
 

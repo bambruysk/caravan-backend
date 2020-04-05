@@ -53,4 +53,4 @@ class CurrentStatViewSet(viewsets.GenericViewSet):
         user: User = request.user
         caravan = user.caravan
 
-        caravan.state =
+    #    caravan.state =

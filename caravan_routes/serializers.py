@@ -38,7 +38,7 @@ class RoutePointSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RoutePoint
-        fields = ['id', 'description', 'name', 'position']
+        fields = ['id', 'description', 'name', 'position', "route_type"]
 
 
 #
@@ -60,8 +60,27 @@ class RouteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ['route_id', 'route_name', 'route_level', 'route_description', "master_instruction", 'points',
-                  'last_update']
+        fields = ['route_id',
+                  'route_name',
+                  'route_level',
+                  'route_description',
+                  "master_instruction",
+                  'points',
+                  "map_visible",
+                  "route_visible",
+                  "ordered",
+                  'last_update'
+                  ]
+
+
+"""
+    map_visible = serializers.BooleanField(source="map_visible")
+    route_visible = serializers.BooleanField(source="route_visible")
+    ordered = serializers.BooleanField(source="ordered") # прохождение по порядку
+"""
+
+
+
 
 
 class GeoMapSerializer(serializers.HyperlinkedModelSerializer):
