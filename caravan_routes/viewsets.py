@@ -1,3 +1,4 @@
+
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
@@ -54,3 +55,13 @@ class CurrentStatViewSet(viewsets.GenericViewSet):
         caravan = user.caravan
 
     #    caravan.state =
+
+
+class QuestBuildViewSet(viewsets.GenericViewSet):
+    serializer_class = RouteSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Route.objects.all()
+
+    def retrieve(self, request, pk=None):
+        print(request.json)

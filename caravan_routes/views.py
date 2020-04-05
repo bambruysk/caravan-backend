@@ -1,24 +1,20 @@
-from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.forms import ModelForm
+from django.http import JsonResponse
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
-from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView
-from rest_framework import status
-from rest_framework import generics
-from rest_framework.response import Response
-
-from caravan_routes.models import GeoPoint, Route, RoutePoint
-from django.forms import ModelForm
-from django.http import HttpRequest, HttpResponse, JsonResponse
-
 # REST
+from rest_framework import status
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, GenericAPIView
+from rest_framework.parsers import JSONParser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.contrib.auth.models import User
 
+from caravan_routes.models import GeoPoint, Route, RoutePoint
 from .serializers import ChangePasswordSerializer, GeoPointSerializer, RoutePointSerializer, RouteSerializer, \
     CurrentStateSerializer
 
@@ -30,8 +26,6 @@ class GeoPointsView(ListView):
     model = GeoPoint
     authentication_classes = [TokenAuthentication]
     permission_classes = (IsAuthenticated,)
-
-
 
 
 class GeoPointsCreateView(CreateView):
@@ -48,6 +42,7 @@ class GeoPointsModelForm(ModelForm):
                   'lattitude',
                   'longitude']
 
+
 #
 # def check_version(req  ):
 #     version = req.GET.get("version",0)
@@ -59,7 +54,7 @@ class GeoPointsModelForm(ModelForm):
 #         return HttpResponse("OK")
 
 
-def update (req):
+def update(req):
     routes = Route.objects.all()
     return JsonResponse(routes)
 
@@ -77,6 +72,7 @@ class ExampleView(APIView):
 
     def post(self):
         pass
+
 
 ## Authorization
 class CustomAuthToken(ObtainAuthToken):
@@ -160,7 +156,6 @@ class GeoPointsCreateView(CreateAPIView):
     permission_classes = [IsAuthenticated]
 
 
-
 class RoutePointsListView(ListAPIView):
     serializer_class = RoutePointSerializer
     model = RoutePoint
@@ -188,3 +183,26 @@ class CurrentStateView(UpdateAPIView):
     #     if serializer.is_valid():
 
     # TODO: Реализовать обновление состояние караванов
+
+
+class QuestBuildView(GenericAPIView):
+    serializer_class = RouteSerializer
+    model = Route
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Route.objects.all()
+    parser_classes = [JSONParser]
+
+    def post(self, request):
+        route_id = request.data["route_id"]
+        if route_id is None:
+            return Response({"Error": "requset must contain route_is field"})
+        else:
+            try:
+                route_id_val = int(route_id)
+                route = self.queryset.get(id=route_id_val)
+                if route is None:
+                    return Response({"Error": f"route_id = {route_id_val} not found"})
+                return Response(self.get_serializer(route).data)
+            except ValueError:
+                return Response({"Error": "route_id musty be integer"})
