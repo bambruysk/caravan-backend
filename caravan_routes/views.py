@@ -14,9 +14,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from caravan_routes.models import GeoPoint, Route, RoutePoint
+from caravan_routes.models import GeoPoint, Route, RoutePoint, PlayHistory, Team
 from .serializers import ChangePasswordSerializer, GeoPointSerializer, RoutePointSerializer, RouteSerializer, \
-    CurrentStateSerializer
+    CurrentStateSerializer, PlaySerializer
 
 
 # Create your views here.
@@ -31,7 +31,7 @@ class GeoPointsView(ListView):
 class GeoPointsCreateView(CreateView):
     model = GeoPoint
     fields = ['name',
-              'lattitude',
+              'latitude',
               'longitude']
 
 
@@ -39,7 +39,7 @@ class GeoPointsModelForm(ModelForm):
     class Meta:
         model = GeoPoint
         fields = ['name',
-                  'lattitude',
+                  'latitude',
                   'longitude']
 
 
@@ -197,12 +197,44 @@ class QuestBuildView(GenericAPIView):
         route_id = request.data["route_id"]
         if route_id is None:
             return Response({"Error": "requset must contain route_is field"})
-        else:
-            try:
-                route_id_val = int(route_id)
-                route = self.queryset.get(id=route_id_val)
-                if route is None:
-                    return Response({"Error": f"route_id = {route_id_val} not found"})
-                return Response(self.get_serializer(route).data)
-            except ValueError:
-                return Response({"Error": "route_id musty be integer"})
+        gamer_name = request.data["gamer_name"]
+        if gamer_name is None:
+            return Response({"Error": "requset must contain route_is field"})
+        team, _ = Team.objects.get_or_create(name=gamer_name)
+
+        try:
+            route_id_val = int(route_id)
+            route = self.queryset.get(route_id=route_id_val)
+            if route is None:
+                return Response({"Error": f"route_id = {route_id_val} not found"})
+            resp = self.get_serializer(route).data
+            resp.update({"user_id": team.id})
+            return Response(resp)
+        except ValueError:
+            return Response({"Error": "route_id musty be integer"})
+
+
+class PlayView(GenericAPIView):
+    serializer_class = PlaySerializer
+    model = PlayHistory
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = PlayHistory.objects.all()
+    parser_classes = [JSONParser]
+
+    def post(self, request):
+        latitude = request.data["latitude"]
+        if latitude is None:
+            return Response({"Error": "requset must contain latitude field"})
+        longitude = request.data["longitude"]
+        if longitude is None:
+            return Response({"Error": "requset must contain latitude field"})
+        last_point = request.data["last_points"]
+        if last_point is None:
+            return Response({"Error": "requset must contain last_points field"})
+
+        play_history = PlayHistory(latitude=latitude, longitude=longitude)
+        pts = []
+        for point_id in last_point:
+            pts.append(RoutePoint.objects.get(route_id=int(point_id)))
+        return Response({"last_id": 0})

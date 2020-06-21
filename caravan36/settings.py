@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'caravan_routes',
     'bootstrap3',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -146,7 +147,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissions',
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
+    'COERCE_DECIMAL_TO_STRING': False
 }
 
 # Default settings

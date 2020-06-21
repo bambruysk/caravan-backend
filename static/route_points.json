@@ -1,0 +1,86 @@
+{
+  "quest_build": {
+    "route_id": 2,
+    "route_name": "Трактир Пъяный гоблин",
+    "route_level": "1",
+    "route_description": "Нешто я да не пойму\nПри моем-то при уму?..\nЧай, не лаптем щи хлебаю,\nСображаю, что к чему.\nПолучается, на мне\nВся политика в стране:\nНе добуду   куропатку —\nБеспременно быть войне.\nЧтобы аглицкий посол\nС голодухи не был зол —\nГоловы не пожалею,\nОбеспечу разносол!..",
+    "master_instruction": "string",
+    "map_visible": true,
+    "route_visible": true,
+    "ordered": true,
+    "route_points": [
+      {
+        "route_id": 1,
+        "point_id": 2,
+        "message": "[Target_1]",
+        "point_type": "NECESSARY"
+      },
+      {
+        "route_id": 2,
+        "point_id": 3,
+        "message": "Target_2]",
+        "point_type": "NECESSARY"
+      },
+      {
+        "route_id": 3,
+        "point_id": 4,
+        "message": "Target_3]",
+        "point_type": "NECESSARY"
+      },
+      {
+        "route_id": 4,
+        "point_id": 5,
+        "message": "Target_4]",
+        "point_type": "NECESSARY"
+      },
+      {
+        "route_id": 5,
+        "point_id": 6,
+        "message": "Target_5.optional]: Я знаю, почему ты здесь, Нео. Знаю, что тебя гнетёт. Почему ты не спишь, почему живёшь один, и все ночи напролёт не выключаешь компьютер. Ты ищешь его. Знаю, потому что когда-то сама искала. И когда он нашёл меня, то сказал, что ищу я вовсе не его. Что я ищу ответ. Нам не даёт покоя вопрос. Он и привёл тебя сюда. Ты задашь его, как и я тогда.",
+        "point_type": "OPTIONAL"
+      },
+      {
+        "route_id": 6,
+        "point_id": 7,
+        "message": "[Target_6.optional]: Не_обращай_внимания_на_этих_лицемеров_Инстинкты_и_слабости_как_раз_и_отличают_нас_от_мерзких_машин",
+        "point_type": "OPTIONAL"
+      },
+      {
+        "route_id": 7,
+        "point_id": 8,
+        "message": "[Target_7.hidden]",
+        "point_type": "HIDDEN"
+      },
+      {
+        "route_id": 8,
+        "point_id": 9,
+        "message": "[Target_8.hidden]",
+        "point_type": "HIDDEN"
+      },
+      {
+        "route_id": 9,
+        "point_id": 1,
+        "message": "[Target_9.hidden]",
+        "point_type": "HIDDEN"
+      },
+      {
+        "route_id": 10,
+        "point_id": 10,
+        "message": "[Target_10.hidden]",
+        "point_type": "HIDDEN"
+      },
+      {
+        "route_id": 11,
+        "point_id": 11,
+        "message": "[Target_11.hidden]: Пора освободить твой разум. Но я могу лишь указать дверь. Ты сам должен выйти на волю. … Отвлекись от всего, Нео. Страх, неверие, сомнения отбрось — очисти свой разум.",
+        "point_type": "HIDDEN"
+      },
+      {
+        "route_id": 12,
+        "point_id": 12,
+        "message": "[Target_12.hidden]",
+        "point_type": "HIDDEN"
+      }
+    ]
+  }
+}

@@ -1,10 +1,14 @@
 from rest_framework import routers
 
-from caravan_routes.viewsets import GeoPointViewSet, RoutePointViewSet, RouteViewSet, GeoMapViewSet, QuestBuildViewSet
+from caravan_routes.viewsets import GeoPointViewSet, RoutePointViewSet, RouteViewSet, GeoMapViewSet, QuestBuildViewSet, \
+    RouteShortViewSet, ArtifactViewSet
 
 router = routers.SimpleRouter()
-router.register(r'geopoints', GeoPointViewSet)
+router.register(r'geo_points', GeoPointViewSet)
 router.register(r'routepoints', RoutePointViewSet)
-router.register(r'routes', RouteViewSet)
-router.register(r'maps', GeoMapViewSet)
+router.register(r'routes', RouteShortViewSet)
+router.register(r'routes_full', RouteViewSet)
+router.register(r'game_map', GeoMapViewSet)
+router.register(r'artifacts', ArtifactViewSet)
+# router.register(r'play',PlayViewSet)
 # router.register(r'quest_build', QuestBuildViewSet)

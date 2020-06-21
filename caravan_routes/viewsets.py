@@ -4,8 +4,9 @@ from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from caravan_routes.models import GeoPoint, RoutePoint, Route, GeoMap
-from caravan_routes.serializers import GeoPointSerializer, RoutePointSerializer, RouteSerializer, GeoMapSerializer
+from caravan_routes.models import GeoPoint, RoutePoint, Route, GeoMap, Artifact, GameModel
+from caravan_routes.serializers import GeoPointSerializer, RoutePointSerializer, RouteSerializer, GeoMapSerializer, \
+    RouteShortSerializer, ArtifactSerializer, GameModelSerializer
 
 
 class GeoPointViewSet(viewsets.ModelViewSet):
@@ -38,6 +39,16 @@ class RouteViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 
+class RouteShortViewSet(viewsets.ModelViewSet):
+    """
+    A simple ViewSet for viewing and editing accounts.
+    """
+    queryset = Route.objects.all()
+    serializer_class = RouteShortSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+
 class GeoMapViewSet(viewsets.ModelViewSet):
     queryset = GeoMap.objects.all()
     serializer_class = GeoMapSerializer
@@ -58,10 +69,24 @@ class CurrentStatViewSet(viewsets.GenericViewSet):
 
 
 class QuestBuildViewSet(viewsets.GenericViewSet):
-    serializer_class = RouteSerializer
+    serializer_class = GameModelSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
-    queryset = Route.objects.all()
+    queryset = GameModel.objects.all()
 
     def retrieve(self, request, pk=None):
         print(request.json)
+
+
+class ArtifactViewSet(viewsets.ModelViewSet):
+    serializer_class = ArtifactSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Artifact.objects.all()
+
+
+class PlayViewSet(viewsets.ModelViewSet):
+    serializer_class = ArtifactSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Artifact.objects.all()

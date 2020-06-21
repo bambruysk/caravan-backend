@@ -25,7 +25,7 @@ from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 
 from caravan_routes.views import GeoPointsView, GeoPointsCreateView, ListGeopointsView, RoutePointsListView, \
-    RouteListView, QuestBuildView
+    RouteListView, QuestBuildView, PlayView
 from caravan_routes.routers import router
 
 urlpatterns = \
@@ -39,7 +39,8 @@ urlpatterns = \
         path('auth-token/', views.CustomAuthToken.as_view(), name="auth-token"),
         path('api/auth-token/', views.CustomAuthToken.as_view(), name="auth-token"),
         path('change_passwd/', views.ChangePasswordView.as_view(), name="change_passwd"),
-        path('api/quest_build', QuestBuildView.as_view(), name="build_quest"),
+        url(r'^api/quest_build', QuestBuildView.as_view(), name="build_quest"),
+        url(r'^api/play', PlayView.as_view(), name="play"),
         url(r'^api/', include((router.urls))),
         path('', TemplateView.as_view(template_name="caravan_routes/main_page.html",
                                       extra_context={'router_urls': router.get_urls()})),

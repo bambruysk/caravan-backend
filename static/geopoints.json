@@ -1,0 +1,76 @@
+{
+  "geo_points": [
+    {
+      "point_id": 1,
+      "label": "Империя",
+      "latitude": 54.483032,
+      "longitude": 39.69752
+    },
+    {
+      "point_id": 2,
+      "label": "Библиотека",
+      "latitude": 54.479124,
+      "longitude": 39.699644
+    },
+    {
+      "point_id": 3,
+      "label": "Капище",
+      "latitude": 54.477459,
+      "longitude": 39.699569
+    },
+    {
+      "point_id": 4,
+      "label": "Кабак Еда и Борода",
+      "latitude": 54.479943,
+      "longitude": 39.696798
+    },
+    {
+      "point_id": 5,
+      "label": "Кабак Варповый Лось",
+      "latitude": 54.478896,
+      "longitude": 39.697734
+    },
+    {
+      "point_id": 6,
+      "label": "Сестры Сигмара",
+      "latitude": 54.479794,
+      "longitude": 39.69546
+    },
+    {
+      "point_id": 7,
+      "label": "Мертвяк",
+      "latitude": 54.478644,
+      "longitude": 39.695159
+    },
+    {
+      "point_id": 8,
+      "label": "Вампиры",
+      "latitude": 54.476986,
+      "longitude": 39.694786
+    },
+    {
+      "point_id": 9,
+      "label": "Храм",
+      "latitude": 54.476278,
+      "longitude": 39.696211
+    },
+    {
+      "point_id": 10,
+      "label": "Мастерка",
+      "latitude": 54.478232,
+      "longitude": 39.697015
+    },
+    {
+      "point_id": 11,
+      "label": "Кратер",
+      "latitude": 54.480759,
+      "longitude": 39.690895
+    },
+    {
+      "point_id": 12,
+      "label": "Норска",
+      "latitude": 54.479541,
+      "longitude": 39.689927
+    }
+  ]
+}
