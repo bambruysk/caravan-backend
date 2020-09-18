@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Route, GeoPoint, RoutePoint, GeoMap, Caravan, Artifact, GameModel, PlayHistory
+from .models import Route, GeoPoint, RoutePoint, GeoMap, Caravan, Artifact, GameModel, PlayHistory, Pincode, Game
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -30,6 +30,7 @@ class GeoPointIdSerializer(serializers.ModelSerializer):
         model = GeoPoint
         fields = ['id', ]
 
+
 class GeoPointCoordOnlySerializer(serializers.ModelSerializer):
     class Meta:
         model = GeoPoint
@@ -57,7 +58,6 @@ class RoutePointShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoutePoint
         fields = ['seq_id', 'geo_id', 'message', "point_type"]
-
 
 
 #
@@ -146,8 +146,34 @@ class ArtifactSerializer(serializers.ModelSerializer):
 class GameModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = GameModel
+        fields = '__all__'
 
 
 class PlaySerializer(serializers.ModelSerializer):
     class Meta:
         model = PlayHistory
+
+
+class PincodeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pincode
+        fields = '__all__'
+
+
+class PincodeGameSerializer(serializers.ModelSerializer):
+    pass
+
+
+class GameSerializer(serializers.ModelSerializer):
+    geomap = serializers.PrimaryKeyRelatedField(read_only=True, many=False)
+    icon = serializers.HyperlinkedRelatedField(
+        many=False,
+        read_only=True,
+        view_name='icon-detail'
+    )
+    name = serializers.CharField()
+
+    class Meta:
+        model = Game
+        # fields = ['id','description','icon']
+        fields = '__all__'

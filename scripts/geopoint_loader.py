@@ -24,18 +24,24 @@ def make_default_points():
         "min_longitude": 39.685648,
         "max_longitude": 39.703389
     }
-    GeoPoint.objects.get_or_create(name="north_west",
-                                   lattitude=borders["max_latitude"],
-                                   longitude=borders["min_longitude"])
-    GeoPoint.objects.get_or_create(name="north_east",
-                                   lattitude=borders["max_latitude"],
-                                   longitude=borders["max_longitude"])
-    GeoPoint.objects.get_or_create(name="south_west",
-                                   lattitude=borders["min_latitude"],
-                                   longitude=borders["min_longitude"])
-    GeoPoint.objects.get_or_create(name="south_east",
-                                   lattitude=borders["min_latitude"],
-                                   longitude=borders["max_longitude"])
+    return {
+
+        "north_west": GeoPoint.objects.get_or_create(name="north_west",
+                                                     latitude=borders["max_latitude"],
+                                                     longitude=borders["min_longitude"])[0],
+
+        "north_east": GeoPoint.objects.get_or_create(name="north_east",
+                                                     latitude=borders["max_latitude"],
+                                                     longitude=borders["max_longitude"])[0],
+
+        "south_west": GeoPoint.objects.get_or_create(name="south_west",
+                                                     latitude=borders["min_latitude"],
+                                                     longitude=borders["min_longitude"])[0],
+
+        "south_east": GeoPoint.objects.get_or_create(name="south_east",
+                                                     latitude=borders["min_latitude"],
+                                                     longitude=borders["max_longitude"])[0],
+    }
 
 
 def delete_routes():

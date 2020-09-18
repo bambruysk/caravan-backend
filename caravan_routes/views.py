@@ -14,7 +14,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from caravan_routes.models import GeoPoint, Route, RoutePoint, PlayHistory, Team
+from caravan_routes.models import GeoPoint, Route, RoutePoint, PlayHistory, Team, Pincode
+from caravan_routes.pincodes import PincodeNotFoundResponse
 from .serializers import ChangePasswordSerializer, GeoPointSerializer, RoutePointSerializer, RouteSerializer, \
     CurrentStateSerializer, PlaySerializer
 
@@ -78,17 +79,30 @@ class ExampleView(APIView):
 class CustomAuthToken(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data,
-                                           context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({
-            'token': token.key,
-            'user_id': user.pk,
-            'email': user.email
-        })
-
+        pincode = request.data.get('pincode')
+        if pincode is None:
+            serializer = self.serializer_class(data=request.data,
+                                               context={'request': request})
+            serializer.is_valid(raise_exception=True)
+            user = serializer.validated_data['user']
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({
+                'token': token.key,
+                'user_id': user.pk,
+                'email': user.email
+            })
+        else:
+            try:
+                pincode = Pincode.objects.get(text=pincode)
+                user = pincode.user
+                token = Token.objects.get(user=user)
+                return Response({
+                    'token': token.key,
+                    'user_id': user.pk,
+                    'email': user.email
+                })
+            except:
+                return PincodeNotFoundResponse()
 
 class CreateNewUser(CreateAPIView):
     def post(self, request, *args, **kwargs):
@@ -194,24 +208,38 @@ class QuestBuildView(GenericAPIView):
     parser_classes = [JSONParser]
 
     def post(self, request):
-        route_id = request.data["route_id"]
-        if route_id is None:
-            return Response({"Error": "requset must contain route_is field"})
-        gamer_name = request.data["gamer_name"]
-        if gamer_name is None:
-            return Response({"Error": "requset must contain route_is field"})
-        team, _ = Team.objects.get_or_create(name=gamer_name)
 
-        try:
-            route_id_val = int(route_id)
-            route = self.queryset.get(route_id=route_id_val)
-            if route is None:
-                return Response({"Error": f"route_id = {route_id_val} not found"})
+        pincode = request.data.get("pincode")
+        if pincode is None:
+            route_id = request.data.get("route_id")
+            if route_id is None:
+                return Response({"Error": "requset must contain route_is field"})
+            gamer_name = request.data.get("gamer_name")
+            if gamer_name is None:
+                return Response({"Error": "requset must contain route_is field"})
+            try:
+                route = self.queryset.get(route_id=route_id)
+                resp = self.get_serializer(route).data
+                team, _ = Team.objects.get_or_create(name=gamer_name)
+                resp.update({"user_id": team.id})
+                return Response(resp)
+            except:
+                return Response({"Error": f"route_id = {route_id} not found"})
+        else:
+            # get pincode from db
+            try:
+                pincode = Pincode.objects.get(text=str(pincode))
+            except:
+                return PincodeNotFoundResponse()
+            gamer_name = request.data.get("gamer_name")
+            if gamer_name is None:
+                team = pincode.team.id
+            else:
+                team, _ = Team.objects.get_or_create(name=gamer_name)
+            route = pincode.route
             resp = self.get_serializer(route).data
             resp.update({"user_id": team.id})
-            return Response(resp)
-        except ValueError:
-            return Response({"Error": "route_id musty be integer"})
+        return Response(resp)
 
 
 class PlayView(GenericAPIView):

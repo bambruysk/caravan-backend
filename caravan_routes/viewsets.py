@@ -4,9 +4,9 @@ from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from caravan_routes.models import GeoPoint, RoutePoint, Route, GeoMap, Artifact, GameModel
+from caravan_routes.models import GeoPoint, RoutePoint, Route, GeoMap, Artifact, GameModel, Pincode, Game
 from caravan_routes.serializers import GeoPointSerializer, RoutePointSerializer, RouteSerializer, GeoMapSerializer, \
-    RouteShortSerializer, ArtifactSerializer, GameModelSerializer
+    RouteShortSerializer, ArtifactSerializer, GameModelSerializer, PincodeSerializer, GameSerializer
 
 
 class GeoPointViewSet(viewsets.ModelViewSet):
@@ -90,3 +90,16 @@ class PlayViewSet(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Artifact.objects.all()
+
+
+class PincodeViewSet(viewsets.ModelViewSet):
+    serializer_class = PincodeSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Pincode.objects.all()
+
+class GameViewSet(viewsets.ModelViewSet):
+    serializer_class = GameSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Game.objects.all()

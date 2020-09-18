@@ -7,3 +7,6 @@ class CaravanState():
         self.lattitude = lattitude
         self.longitude = longitude
         self.created = created or datetime.now()
+
+
+def build_quest():

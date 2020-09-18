@@ -8,8 +8,13 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
 
-# Create your models here.
+class Game(models.Model):
+    name = models.CharField(max_length=32, verbose_name="Название")
+    description = models.TextField(verbose_name="Описание")
+    icon = models.ImageField(verbose_name="Изображение",null=True)
 
+    def __str__(self):
+        return str(self.name)
 
 # Geopoints
 
@@ -65,13 +70,15 @@ class Route(models.Model):
     route_visible = models.BooleanField(default=True)  # отображать
     ordered = models.BooleanField(default=True)  # прохождение по порядку
 
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True, default=None)
+
     def __str__(self):
         return str(self.id) + self.name
 
 
 class GeoMap(models.Model):
-    name = models.CharField(max_length=60)
-    picture = models.FileField(upload_to='maps/')
+    name = models.CharField(max_length=60, verbose_name="Название")
+    picture = models.FileField(upload_to='maps/', verbose_name="Картинка карты")
 
     north_west = models.ForeignKey(GeoPoint,
                                    on_delete=models.CASCADE,
@@ -93,7 +100,9 @@ class GeoMap(models.Model):
                                    related_name="south_east",
                                    default=None)
 
-    description = models.TextField(max_length=2000, default="")
+    description = models.TextField(max_length=2000, default="", verbose_name="Описание")
+
+    game = models.OneToOneField(Game, on_delete=models.CASCADE, verbose_name="Игра")
 
     def __str__(self):
         return str(self.name)
@@ -228,3 +237,25 @@ class PlayHistory(models.Model):
 class Message(models.Model):
     text = models.TextField()
     time = models.TimeField()
+
+
+class Pincode(models.Model):
+    text = models.CharField(max_length=32, verbose_name="PINCODE", unique=True)
+    route = models.ForeignKey(Route, on_delete=models.CASCADE, verbose_name="Маршрут")
+    is_valid = models.BooleanField(verbose_name="Может использоваться")
+    is_in_game = models.BooleanField(verbose_name="В игре")
+    created_time = models.DateTimeField(verbose_name="Время создания")
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE,
+                             null=True,
+                             verbose_name="Игрок")
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, verbose_name="Team")
+
+
+
+@receiver(post_save, sender=Pincode)
+def create_pincode_user(sender, instance, created, **kwargs):
+    if created:
+        instance.user = User.objects.create(username=str(instance.text)+"user")
+        instance.save()
+
